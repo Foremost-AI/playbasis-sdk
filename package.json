@@ -1,6 +1,10 @@
 {
   "name": "playbasis-sdk",
   "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Foremost-AI/playbasis-sdk.git"
+  },
   "scripts": {
     "build": "tsc",
     "test": "jest",
