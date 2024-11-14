@@ -31,7 +31,7 @@ interface RegisterResponse {
   success: boolean,
   error_code: string,
   message: string,
-  response: any[],
+  response: any[] | null,
 }
 
 interface PlayerResponse {
@@ -64,7 +64,7 @@ interface PointsResponse {
   message: string;
   response: {
     points: Point[];
-  }
+  } | null
 }
 
 
