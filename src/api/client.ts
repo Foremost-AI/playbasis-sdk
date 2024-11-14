@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import type { AuthResponse } from '../types/auth';
+import type { AuthResponse, PlayerAuth } from '../types/auth';
 
 export const DEFAULT_BASE_URL = 'http://localhost/api';
 const MAX_RETRIES = 1
@@ -10,6 +10,7 @@ export class APIClient {
   private apiKey: string;
   private apiSecret: string;
   private token: string | undefined;
+  private refreshToken: string | undefined;
   public playerId: string | undefined;
 
   constructor(apiKey: string, apiSecret: string, baseURL: string = DEFAULT_BASE_URL) {
@@ -30,8 +31,12 @@ export class APIClient {
     this.token = token;
   }
 
-  public setPlayerId(playerId: string) {
+  public setPlayerId(playerId: string, auth?: PlayerAuth) {
     this.playerId = playerId;
+    if (auth) {
+      this.token = auth.token;
+      this.refreshToken = auth.refresh_token;
+    }
   }
 
   public get<T>(endpoint: string, params?: any): Promise<T> {

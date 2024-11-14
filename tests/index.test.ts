@@ -15,7 +15,7 @@ describe('PlaybasisSDK', () => {
     expect(playerToken.response?.token).toBeTruthy();
     expect(playerToken.response?.refresh_token).toBeTruthy();
 
-    sdk.setPlayerId('test');
+    //sdk.setPlayerId('test');
 
     const player = await sdk.player.getPlayer();
     expect(player).toBeDefined();

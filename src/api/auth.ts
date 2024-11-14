@@ -9,7 +9,11 @@ export class Auth {
     this.apiClient = apiClient;
   }
 
-  public login(id: string, password: string = 'password') {
-    return this.apiClient.post<PlayerAuthResponse>(`/Auth/player/${id}`, { password });
+  public async login(id: string, password: string = 'password') {
+    const result = await this.apiClient.post<PlayerAuthResponse>(`/Auth/player/${id}`, { password });
+    if (result.success) {
+      this.apiClient.setPlayerId(id, result.response);
+    }
+    return result;
   }
 }

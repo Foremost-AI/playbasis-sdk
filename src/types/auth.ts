@@ -5,7 +5,7 @@ interface Auth {
   date_expire: string;
 }
 
-interface PlayerAuth extends Auth {
+export interface PlayerAuth extends Auth {
   refresh_token: string;
 }
 
