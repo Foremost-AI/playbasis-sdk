@@ -1,17 +1,9 @@
 import axios, { AxiosInstance } from 'axios';
 
+import type { AuthResponse } from '@/types/auth';
+
 export const DEFAULT_BASE_URL = 'http://localhost/api';
 const MAX_RETRIES = 1
-
-interface AuthResponse {
-  success: boolean;
-  error_code: string;
-  message: string;
-  response: {
-    token: string;
-    date_expire: string;
-  } | null;
-}
 
 export class APIClient {
   private client: AxiosInstance;
