@@ -52,6 +52,31 @@ interface PlayerResponse {
   } | null;
 }
 
+interface Point {
+  reward_id: string;
+  reward_name: string;
+  value: number;
+}
+
+interface PointsResponse {
+  success: boolean;
+  error_code: string;
+  message: string;
+  response: {
+    points: Point[];
+  }
+}
+
+
+interface PointResponse {
+  success: boolean;
+  error_code: string;
+  message: string;
+  response: {
+    point: Point[];
+  }
+}
+
 export class Player {
   private apiClient: APIClient;
 
@@ -68,5 +93,13 @@ export class Player {
 
   public getPlayer(): Promise<PlayerResponse> {
     return this.apiClient.get<PlayerResponse>(`/Player/${this.apiClient.playerId}`);
+  }
+
+  public listPoints(): Promise<PointsResponse> {
+    return this.apiClient.get<PointsResponse>(`/Player/${this.apiClient.playerId}/points`);
+  }
+
+  public getPoint(name: string): Promise<PointResponse> {
+    return this.apiClient.get<PointResponse>(`/Player/${this.apiClient.playerId}/point/${name}`);
   }
 }

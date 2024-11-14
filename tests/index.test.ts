@@ -17,6 +17,18 @@ describe('PlaybasisSDK', () => {
     expect(player.response?.player.cl_player_id).not.toBeFalsy();
     expect(player.response?.player.username).not.toBeFalsy();
 
+    const points = await sdk.player.listPoints();
+    expect(points).toBeDefined();
+    expect(points.success).toBeTruthy();
+    expect(points.response).not.toBeNull();
+    expect(points.response?.points).toBeTruthy();
+
+    const point = await sdk.player.getPoint('exp');
+    expect(point).toBeDefined();
+    expect(point.success).toBeTruthy();
+    expect(point.response).not.toBeNull();
+    expect(point.response?.point).toBeTruthy();
+
     const result = await sdk.engine.execute('login');
     expect(result).toBeDefined();
     expect(result.success).toBeTruthy();
