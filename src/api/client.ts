@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import type { AuthResponse } from '@/types/auth';
+import type { AuthResponse } from '../types/auth';
 
 export const DEFAULT_BASE_URL = 'http://localhost/api';
 const MAX_RETRIES = 1
