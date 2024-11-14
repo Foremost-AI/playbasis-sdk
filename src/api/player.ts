@@ -63,7 +63,6 @@ export class Player {
     return this.apiClient.post<RegisterResponse>(`/Player/${id}/register`, {
       ...data,
       username: data?.username ?? id,
-      email: data?.email ?? `${id}@email.com`,
     });
   }
 
