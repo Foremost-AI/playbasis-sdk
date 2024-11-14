@@ -1,16 +1,14 @@
 import type { Response } from './base';
 
-export interface AuthResponse extends Response {
-  response: {
-    token: string;
-    date_expire: string;
-  } | null;
+interface Auth {
+  token: string;
+  date_expire: string;
 }
 
-export interface PlayerAuthResponse extends Response {
-  response: {
-    token: string;
-    refresh_token: string;
-    date_expire: string;
-  } | null;
+interface PlayerAuth extends Auth {
+  refresh_token: string;
 }
+
+export type AuthResponse = Response<Auth>;
+
+export type PlayerAuthResponse = Response<PlayerAuth>;

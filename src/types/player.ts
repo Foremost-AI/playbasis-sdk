@@ -27,24 +27,20 @@ export interface RegisterRequest {
   approve_status?: ApproveStatus;
 }
 
-export interface RegisterResponse extends Response {
-  response: any[] | null;
-}
+export type RegisterResponse = Response<any[]>;
 
-export interface PlayerResponse extends Response {
-  response: {
-    player: {
-      cl_player_id: string;
-      image: string;
-      username: string;
-      exp: number;
-      level: number;
-      first_name: string;
-      last_name: string;
-      gender: number,
-    }
-  } | null;
-}
+export type PlayerResponse = Response<{
+  player: {
+    cl_player_id: string;
+    image: string;
+    username: string;
+    exp: number;
+    level: number;
+    first_name: string;
+    last_name: string;
+    gender: number,
+  }
+}>;
 
 interface Point {
   reward_id: string;
@@ -52,15 +48,11 @@ interface Point {
   value: number;
 }
 
-export interface PointsResponse extends Response {
-  response: {
-    points: Point[];
-  } | null;
-}
+export type PointsResponse = Response<{
+  points: Point[];
+}>;
 
 
-export interface PointResponse extends Response {
-  response: {
-    point: Point[];
-  }
-}
+export type PointResponse = Response<{
+  point: Point[];
+}>;

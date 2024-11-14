@@ -27,10 +27,8 @@ interface EventQuest {
   image: string;
 }
 
-export interface EngineResponse extends Response {
-  response: {
-    events: Event[];
-    events_missions: EventMission[];
-    events_quests: EventQuest[];
-  } | null;
-}
+export type EngineResponse = Response<{
+  events: Event[];
+  events_missions: EventMission[];
+  events_quests: EventQuest[];
+}>;
