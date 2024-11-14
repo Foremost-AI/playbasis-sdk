@@ -43,6 +43,7 @@ export class APIClient {
   public async post<T>(endpoint: string, data?: any, retry: number = 0): Promise<T> {
     if (!data) data = {};
     if (!endpoint.startsWith('/Auth')) data.token = this.token;
+    else data.api_key = this.apiKey;
     data.player_id = this.playerId;
     const response = (await this.client.post(endpoint, data)).data;
     if (!response['success'] && response['error_code'] === '0900' && response['message'] === 'Invalid token Key') {
@@ -55,7 +56,8 @@ export class APIClient {
 
   public async put<T>(endpoint: string, data?: any, retry: number = 0): Promise<T> {
     if (!data) data = {};
-    data.token = this.token;
+    if (!endpoint.startsWith('/Auth')) data.token = this.token;
+    else data.api_key = this.apiKey;
     data.player_id = this.playerId;
     const response = (await this.client.put(endpoint, data)).data;
     if (!response['success'] && response['error_code'] === '0900' && response['message'] === 'Invalid token Key') {

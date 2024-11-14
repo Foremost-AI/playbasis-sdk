@@ -8,6 +8,13 @@ describe('PlaybasisSDK', () => {
 
     const sdk = await PlaybasisSDK.build(PLAYBASIS_API_KEY!, PLAYBASIS_API_SECRET!, PLAYBASIS_API_URL!);
 
+    const playerToken = await sdk.auth.login('test');
+    expect(playerToken).toBeDefined();
+    expect(playerToken.success).toBeTruthy();
+    expect(playerToken.response).not.toBeNull();
+    expect(playerToken.response?.token).toBeTruthy();
+    expect(playerToken.response?.refresh_token).toBeTruthy();
+
     sdk.setPlayerId('test');
 
     const player = await sdk.player.getPlayer();

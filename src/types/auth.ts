@@ -6,3 +6,11 @@ export interface AuthResponse extends Response {
     date_expire: string;
   } | null;
 }
+
+export interface PlayerAuthResponse extends Response {
+  response: {
+    token: string;
+    refresh_token: string;
+    date_expire: string;
+  } | null;
+}
