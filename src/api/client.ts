@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 export const DEFAULT_BASE_URL = 'http://localhost/api';
+const MAX_RETRIES = 1
 
 interface AuthResponse {
   success: boolean;
@@ -31,6 +32,12 @@ export class APIClient {
     this.token = token;
   }
 
+  public async renew() {
+    const data = await this.post<AuthResponse>('/Auth/renew', { api_key: this.apiKey, api_secret: this.apiSecret })
+    const token = data.response?.token;
+    this.token = token;
+  }
+
   public setPlayerId(playerId: string) {
     this.playerId = playerId;
   }
@@ -41,18 +48,30 @@ export class APIClient {
     return this.client.get(endpoint, { params }).then(res => res.data);
   }
 
-  public post<T>(endpoint: string, data?: any): Promise<T> {
+  public async post<T>(endpoint: string, data?: any, retry: number = 0): Promise<T> {
     if (!data) data = {};
     if (!endpoint.startsWith('/Auth')) data.token = this.token;
     data.player_id = this.playerId;
-    return this.client.post(endpoint, data).then(res => res.data);
+    let response = (await this.client.post(endpoint, data)).data;
+    if (!response['success'] && response['error_code'] === '0900' && response['message'] === 'Invalid token Key') {
+      if (retry >= MAX_RETRIES) throw new Error('Reached MAX_RETRIES');
+      await this.renew();
+      return this.post<T>(endpoint, data, retry + 1);
+    }
+    return response;
   }
 
-  public put<T>(endpoint: string, data: any): Promise<T> {
+  public async put<T>(endpoint: string, data?: any, retry: number = 0): Promise<T> {
     if (!data) data = {};
     data.token = this.token;
     data.player_id = this.playerId;
-    return this.client.put(endpoint, data).then(res => res.data);
+    const response = (await this.client.put(endpoint, data)).data;
+    if (!response['success'] && response['error_code'] === '0900' && response['message'] === 'Invalid token Key') {
+      if (retry >= MAX_RETRIES) throw new Error('Reached MAX_RETRIES');
+      await this.renew();
+      return this.put<T>(endpoint, data, retry + 1);
+    }
+    return response;
   }
 
   public delete<T>(endpoint: string, params?: any): Promise<T> {
