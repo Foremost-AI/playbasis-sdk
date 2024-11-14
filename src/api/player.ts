@@ -25,7 +25,7 @@ export class Player {
     this.apiClient = apiClient;
   }
 
-  public async getPlayer(): Promise<any> {
+  public getPlayer(): Promise<PlayerResponse> {
     return this.apiClient.get<PlayerResponse>(`/Player/${this.apiClient.playerId}`);
   }
 }

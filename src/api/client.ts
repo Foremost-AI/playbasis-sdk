@@ -52,7 +52,7 @@ export class APIClient {
     if (!data) data = {};
     if (!endpoint.startsWith('/Auth')) data.token = this.token;
     data.player_id = this.playerId;
-    let response = (await this.client.post(endpoint, data)).data;
+    const response = (await this.client.post(endpoint, data)).data;
     if (!response['success'] && response['error_code'] === '0900' && response['message'] === 'Invalid token Key') {
       if (retry >= MAX_RETRIES) throw new Error('Reached MAX_RETRIES');
       await this.renew();
