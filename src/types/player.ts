@@ -54,5 +54,5 @@ export type PointsResponse = Response<{
 
 
 export type PointResponse = Response<{
-  point: Point[];
+  point: Point;
 }>;
