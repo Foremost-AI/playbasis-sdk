@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-import type { AuthResponse, PlayerAuth } from '../types/auth';
+import type { AuthResponse, Auth } from '../types/auth';
 
 export const DEFAULT_BASE_URL = 'http://localhost/api';
 const MAX_RETRIES = 1
@@ -21,17 +21,17 @@ export class APIClient {
 
   public async auth() {
     const data = await this.post<AuthResponse>('/Auth', { api_key: this.apiKey, api_secret: this.apiSecret })
-    const token = data.response?.token;
-    this.token = token;
+    this.token = data.response?.token;
+    this.refreshToken = data.response?.refresh_token;
   }
 
   public async renew() {
-    const data = await this.post<AuthResponse>('/Auth/renew', { api_key: this.apiKey, api_secret: this.apiSecret })
-    const token = data.response?.token;
-    this.token = token;
+    const data = await this.post<AuthResponse>('/Auth/renew', { api_key: this.apiKey, refresh_token: this.refreshToken })
+    this.token = data.response?.token;
+    this.refreshToken = data.response?.refresh_token;
   }
 
-  public setPlayerId(playerId: string, auth?: PlayerAuth) {
+  public setPlayerId(playerId: string, auth?: Auth) {
     this.playerId = playerId;
     if (auth) {
       this.token = auth.token;
